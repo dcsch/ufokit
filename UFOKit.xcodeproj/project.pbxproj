@@ -26,6 +26,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		035EBF481FF96DD0009CCEC7 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		03601D701FDF67F8000B1401 /* UFOKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = UFOKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		03601D731FDF67F8000B1401 /* UFOKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UFOKit.h; sourceTree = "<group>"; };
 		03601D741FDF67F8000B1401 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -59,6 +60,7 @@
 		03601D661FDF67F8000B1401 = {
 			isa = PBXGroup;
 			children = (
+				035EBF481FF96DD0009CCEC7 /* README.md */,
 				03601D721FDF67F8000B1401 /* UFOKit */,
 				03601D7D1FDF67F8000B1401 /* UFOKitTests */,
 				03601D711FDF67F8000B1401 /* Products */,
