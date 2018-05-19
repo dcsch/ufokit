@@ -14,6 +14,8 @@ class ViewController: NSViewController {
   @IBOutlet weak var glyphView: GlyphView!
   @IBOutlet weak var popUpButton: NSPopUpButton!
 
+  var info: UFOKit.FontInfo?
+
   override func viewDidLoad() {
     super.viewDidLoad()
 
@@ -42,12 +44,12 @@ class ViewController: NSViewController {
 //      let groups = try ufoReader.readGroups()
 //      print(groups)
 
-//      let info = try ufoReader.readInfo()
+      info = try ufoReader.readInfo()
 
 //      let kerning = try ufoReader.readKerning()
 //      print(kerning)
 
-      struct RoboFontGuide: Decodable {
+      struct RoboFontGuide: Codable {
         var angle: Int
         var isGlobal: Int
         var magnetic: Int
@@ -56,12 +58,12 @@ class ViewController: NSViewController {
         var y: Int
       }
 
-      struct RoboFontSort: Decodable {
+      struct RoboFontSort: Codable {
         var ascending: [String]
         var type: String
       }
 
-      class RoboFontLib: Decodable {
+      class RoboFontLib: Codable {
         var compileSettingsAutohint: Bool?
         var compileSettingsCheckOutlines: Bool?
         var compileSettingsDecompose: Bool?
@@ -102,7 +104,7 @@ class ViewController: NSViewController {
       let libData = try ufoReader.readLib()
       let decoder = PropertyListDecoder()
       let libProps = try decoder.decode(RoboFontLib.self, from: libData)
-      print(libProps.italicSlantOffset as Any)
+      print(libProps.glyphOrder as Any)
 
 //      let features = try ufoReader.readFeatures()
 //      print(features)
@@ -116,7 +118,8 @@ class ViewController: NSViewController {
       try glyphSet.readGlyph(glyphName: "atilde", pointPen: pen)
 //      try glyphSet.readGlyph(glyphName: "period", pointPen: pen)
 
-      calculateBounds(containing: pen.path.boundingBox)
+      let boundingBox = expandToFontBoundingBox(pen.path.boundingBox)
+      calculateBounds(containing: boundingBox)
 
 //        glyphView.bounds = bounds
       glyphView.glyphPath = pen.path
@@ -130,8 +133,19 @@ class ViewController: NSViewController {
 
   func windowResized(_ notification: Notification) {
     if let path = glyphView.glyphPath {
-      calculateBounds(containing: path.boundingBox)
+      let boundingBox = expandToFontBoundingBox(path.boundingBox)
+      calculateBounds(containing: boundingBox)
       glyphView.needsDisplay = true
+    }
+  }
+
+  func expandToFontBoundingBox(_ rect: CGRect) -> CGRect {
+    if let descender = info?.descender,
+      let ascender = info?.ascender {
+      return rect.union(CGRect(x: 0.0, y: descender,
+                               width: 0.0, height: ascender - descender))
+    } else {
+      return rect
     }
   }
 

@@ -44,13 +44,13 @@ let msCharSetToWindowsCharacterSet = [0: 1,
                                       238: 19,
                                       255: 20]
 
-public struct FontInfoV1: Codable {
-  var ascender: Float?
-  var capHeight: Float?
+struct FontInfoV1: Codable {
+  var ascender: Double?
+  var capHeight: Double?
   var copyright: String?
   var createdBy: String?
-  var descender: Float?
-  var defaultWidth: Float?
+  var descender: Double?
+  var defaultWidth: Double?
   var designer: String?
   var designerURL: String?
   var familyName: String?
@@ -59,7 +59,7 @@ public struct FontInfoV1: Codable {
   var fontName: String?
   var fontStyle: Int?
   var fullName: String?
-  var italicAngle: Float?
+  var italicAngle: Double?
   var license: String?
   var licenseURL: String?
   var menuName: String?
@@ -69,14 +69,14 @@ public struct FontInfoV1: Codable {
   var otFamilyName: String?
   var otStyleName: String?
   var otMacName: String?
-  var slantAngle: Float?
+  var slantAngle: Double?
   var styleName: String?
   var trademark: String?
   var ttUniqueID: String?
   var ttVendor: String?
   var ttVersion: String?
   var uniqueID: Int?
-  var unitsPerEm: Float?
+  var unitsPerEm: Double?
   var vendorURL: String?
   var versionMajor: Int?
   var versionMinor: Int?
@@ -88,120 +88,120 @@ public struct FontInfoV1: Codable {
 public struct FontInfo: Codable {
 
   // Generic Identification Information
-  var familyName: String?
-  var styleName: String?
-  var styleMapFamilyName: String?
-  var styleMapStyleName: String?
-  var versionMajor: Int?
-  var versionMinor: Int?
-  var year: Int?
+  public var familyName: String?
+  public var styleName: String?
+  public var styleMapFamilyName: String?
+  public var styleMapStyleName: String?
+  public var versionMajor: Int?
+  public var versionMinor: Int?
+  public var year: Int?
 
   // Generic Legal Information
-  var copyright: String?
-  var trademark: String?
+  public var copyright: String?
+  public var trademark: String?
 
   // Generic Dimension Information
-  var unitsPerEm: Float?
-  var descender: Float?
-  var xHeight: Float?
-  var capHeight: Float?
-  var ascender: Float?
-  var italicAngle: Float?
+  public var unitsPerEm: Double?
+  public var descender: Double?
+  public var xHeight: Double?
+  public var capHeight: Double?
+  public var ascender: Double?
+  public var italicAngle: Double?
 
   // Generic Miscellaneous Information
-  var note: String?
+  public var note: String?
 
   // OpenType head Table Fields
-  var openTypeHeadCreated: String?
-  var openTypeHeadLowestRecPPEM: Float?
-  var openTypeHeadFlags: [Int]?
+  public var openTypeHeadCreated: String?
+  public var openTypeHeadLowestRecPPEM: Double?
+  public var openTypeHeadFlags: [Int]?
 
   // OpenType hhea Table Fields
-  var openTypeHheaAscender: Float?
-  var openTypeHheaDescender: Float?
-  var openTypeHheaLineGap: Float?
-  var openTypeHheaCaretSlopeRise: Int?
-  var openTypeHheaCaretSlopeRun: Int?
-  var openTypeHheaCaretOffset: Float?
+  public var openTypeHheaAscender: Double?
+  public var openTypeHheaDescender: Double?
+  public var openTypeHheaLineGap: Double?
+  public var openTypeHheaCaretSlopeRise: Int?
+  public var openTypeHheaCaretSlopeRun: Int?
+  public var openTypeHheaCaretOffset: Double?
 
   // OpenType Name Table Fields
-  var openTypeNameDesigner: String?
-  var openTypeNameDesignerURL: String?
-  var openTypeNameManufacturer: String?
-  var openTypeNameManufacturerURL: String?
-  var openTypeNameLicense: String?
-  var openTypeNameLicenseURL: String?
-  var openTypeNameVersion: String?
-  var openTypeNameUniqueID: String?
-  var openTypeNameDescription: String?
-  var openTypeNamePreferredFamilyName: String?
-  var openTypeNamePreferredSubfamilyName: String?
-  var openTypeNameCompatibleFullName: String?
-  var openTypeNameSampleText: String?
-  var openTypeNameWWSFamilyName: String?
-  var openTypeNameWWSSubfamilyName: String?
+  public var openTypeNameDesigner: String?
+  public var openTypeNameDesignerURL: String?
+  public var openTypeNameManufacturer: String?
+  public var openTypeNameManufacturerURL: String?
+  public var openTypeNameLicense: String?
+  public var openTypeNameLicenseURL: String?
+  public var openTypeNameVersion: String?
+  public var openTypeNameUniqueID: String?
+  public var openTypeNameDescription: String?
+  public var openTypeNamePreferredFamilyName: String?
+  public var openTypeNamePreferredSubfamilyName: String?
+  public var openTypeNameCompatibleFullName: String?
+  public var openTypeNameSampleText: String?
+  public var openTypeNameWWSFamilyName: String?
+  public var openTypeNameWWSSubfamilyName: String?
 
   // OpenType OS/2 Table Fields
-  var openTypeOS2WidthClass: Int?
-  var openTypeOS2WeightClass: Int?
-  var openTypeOS2Selection: [Int]?
-  var openTypeOS2VendorID: String?
-  var openTypeOS2Panose: [Int]?
-  var openTypeOS2FamilyClass: [Int]?
-  var openTypeOS2UnicodeRanges: [Int]?
-  var openTypeOS2CodePageRanges: [Int]?
-  var openTypeOS2TypoAscender: Float?
-  var openTypeOS2TypoDescender: Float?
-  var openTypeOS2TypoLineGap: Float?
-  var openTypeOS2WinAscent: Float?
-  var openTypeOS2WinDescent: Float?
-  var openTypeOS2Type: [Int]?
-  var openTypeOS2SubscriptXSize: Float?
-  var openTypeOS2SubscriptYSize: Float?
-  var openTypeOS2SubscriptXOffset: Float?
-  var openTypeOS2SubscriptYOffset: Float?
-  var openTypeOS2SuperscriptXSize: Float?
-  var openTypeOS2SuperscriptYSize: Float?
-  var openTypeOS2SuperscriptXOffset: Float?
-  var openTypeOS2SuperscriptYOffset: Float?
-  var openTypeOS2StrikeoutSize: Float?
-  var openTypeOS2StrikeoutPosition: Float?
+  public var openTypeOS2WidthClass: Int?
+  public var openTypeOS2WeightClass: Int?
+  public var openTypeOS2Selection: [Int]?
+  public var openTypeOS2VendorID: String?
+  public var openTypeOS2Panose: [Int]?
+  public var openTypeOS2FamilyClass: [Int]?
+  public var openTypeOS2UnicodeRanges: [Int]?
+  public var openTypeOS2CodePageRanges: [Int]?
+  public var openTypeOS2TypoAscender: Double?
+  public var openTypeOS2TypoDescender: Double?
+  public var openTypeOS2TypoLineGap: Double?
+  public var openTypeOS2WinAscent: Double?
+  public var openTypeOS2WinDescent: Double?
+  public var openTypeOS2Type: [Int]?
+  public var openTypeOS2SubscriptXSize: Double?
+  public var openTypeOS2SubscriptYSize: Double?
+  public var openTypeOS2SubscriptXOffset: Double?
+  public var openTypeOS2SubscriptYOffset: Double?
+  public var openTypeOS2SuperscriptXSize: Double?
+  public var openTypeOS2SuperscriptYSize: Double?
+  public var openTypeOS2SuperscriptXOffset: Double?
+  public var openTypeOS2SuperscriptYOffset: Double?
+  public var openTypeOS2StrikeoutSize: Double?
+  public var openTypeOS2StrikeoutPosition: Double?
 
   // OpenType vhea Table Fields
-  var openTypeVheaVertTypoAscender: Float?
-  var openTypeVheaVertTypoDescender: Float?
-  var openTypeVheaVertTypoLineGap: Float?
-  var openTypeVheaCaretSlopeRise: Int?
-  var openTypeVheaCaretSlopeRun: Int?
-  var openTypeVheaCaretOffset: Float?
+  public var openTypeVheaVertTypoAscender: Double?
+  public var openTypeVheaVertTypoDescender: Double?
+  public var openTypeVheaVertTypoLineGap: Double?
+  public var openTypeVheaCaretSlopeRise: Int?
+  public var openTypeVheaCaretSlopeRun: Int?
+  public var openTypeVheaCaretOffset: Double?
 
   // PostScript Specific Data
-  var postscriptFontName: String?
-  var postscriptFullName: String?
-  var postscriptSlantAngle: Float?
-  var postscriptUniqueID: Int?
-  var postscriptUnderlineThickness: Float?
-  var postscriptUnderlinePosition: Float?
-  var postscriptIsFixedPitch: Bool?
-  var postscriptBlueValues: [Int]?
-  var postscriptOtherBlues: [Int]?
-  var postscriptFamilyBlues: [Int]?
-  var postscriptFamilyOtherBlues: [Int]?
-  var postscriptStemSnapH: [Int]?
-  var postscriptStemSnapV: [Int]?
-  var postscriptBlueFuzz: Float?
-  var postscriptBlueShift: Float?
-  var postscriptBlueScale: Float?
-  var postscriptForceBold: Bool?
-  var postscriptDefaultWidthX: Float?
-  var postscriptNominalWidthX: Float?
-  var postscriptWeightName: String?
-  var postscriptDefaultCharacter: String?
-  var postscriptWindowsCharacterSet: Int?
+  public var postscriptFontName: String?
+  public var postscriptFullName: String?
+  public var postscriptSlantAngle: Double?
+  public var postscriptUniqueID: Int?
+  public var postscriptUnderlineThickness: Double?
+  public var postscriptUnderlinePosition: Double?
+  public var postscriptIsFixedPitch: Bool?
+  public var postscriptBlueValues: [Int]?
+  public var postscriptOtherBlues: [Int]?
+  public var postscriptFamilyBlues: [Int]?
+  public var postscriptFamilyOtherBlues: [Int]?
+  public var postscriptStemSnapH: [Int]?
+  public var postscriptStemSnapV: [Int]?
+  public var postscriptBlueFuzz: Double?
+  public var postscriptBlueShift: Double?
+  public var postscriptBlueScale: Double?
+  public var postscriptForceBold: Bool?
+  public var postscriptDefaultWidthX: Double?
+  public var postscriptNominalWidthX: Double?
+  public var postscriptWeightName: String?
+  public var postscriptDefaultCharacter: String?
+  public var postscriptWindowsCharacterSet: Int?
 
   // Macintosh FOND Resource Data
-  var macintoshFONDFamilyID: Int?
-  var macintoshFONDName: String?
+  public var macintoshFONDFamilyID: Int?
+  public var macintoshFONDName: String?
 
   init(fontInfoV1: FontInfoV1) throws {
     self.ascender = fontInfoV1.ascender;
