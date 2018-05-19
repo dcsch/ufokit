@@ -5,8 +5,7 @@ import PlaygroundSupport
 import UFOKit
 
 class GlyphView: NSView {
-  var glyphPaths = [CGPath]()
-  var transforms = [CGAffineTransform]()
+  var glyphPath: CGPath?
 
   override func draw(_ dirtyRect: NSRect) {
     guard let context = NSGraphicsContext.current?.cgContext else {
@@ -17,12 +16,10 @@ class GlyphView: NSView {
     context.fill(self.bounds)
 
     // Render the glyph path
-    for (path, transform) in zip(glyphPaths, transforms) {
-      context.saveGState()
-      context.concatenate(transform)
+    if let path = glyphPath {
       context.addPath(path)
-      context.restoreGState()
     }
+
     context.setStrokeColor(CGColor.black)
     context.setFillColor(CGColor.black)
     context.strokePath()
@@ -42,8 +39,7 @@ do {
   try glyphSet.readGlyph(glyphName: "A", pointPen: pen)
 //  try glyphSet.readGlyph(glyphName: "at", pointPen: pen)
   let glyphView = GlyphView(frame: NSRect(x: 0, y: 0, width: 240, height: 480))
-  glyphView.glyphPaths.append(pen.path)
-  glyphView.transforms.append(CGAffineTransform.identity)
+  glyphView.glyphPath = pen.path
 
   let bounds = pen.path.boundingBox
 //  glyphView.bounds = CGRect(x: 100, y: -300, width: 500, height: 1000)

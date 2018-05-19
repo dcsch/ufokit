@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="13771"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14109"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -705,10 +705,42 @@
         <scene sceneID="hIz-AP-VOD">
             <objects>
                 <viewController id="XfG-lQ-9wD" customClass="ViewController" customModule="UFOSample" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" wantsLayer="YES" id="m2S-Jp-Qdl" customClass="GlyphView" customModule="UFOSample" customModuleProvider="target">
+                    <view key="view" wantsLayer="YES" id="m2S-Jp-Qdl">
                         <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Wx1-5Y-t2Z">
+                                <rect key="frame" x="-2" y="246" width="485" height="26"/>
+                                <popUpButtonCell key="cell" type="push" title="Item 1" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="border" inset="2" selectedItem="rWR-3u-8wa" id="4Uu-Xe-N2O">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                    <menu key="menu" id="j5X-L9-0T6">
+                                        <items>
+                                            <menuItem title="Item 1" state="on" id="rWR-3u-8wa"/>
+                                            <menuItem title="Item 2" id="00S-uY-E6s"/>
+                                            <menuItem title="Item 3" id="Eyq-pN-VIv"/>
+                                        </items>
+                                    </menu>
+                                </popUpButtonCell>
+                            </popUpButton>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="a0S-wg-S2k" customClass="GlyphView" customModule="UFOSample" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="480" height="250"/>
+                            </customView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="a0S-wg-S2k" firstAttribute="leading" secondItem="Wx1-5Y-t2Z" secondAttribute="leading" id="61Q-IR-vm2"/>
+                            <constraint firstItem="Wx1-5Y-t2Z" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" id="9dY-dK-Hlg"/>
+                            <constraint firstAttribute="trailing" secondItem="a0S-wg-S2k" secondAttribute="trailing" id="Nw2-7I-qtA"/>
+                            <constraint firstItem="a0S-wg-S2k" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="20" symbolic="YES" id="UCz-Jh-hAA"/>
+                            <constraint firstAttribute="bottom" secondItem="a0S-wg-S2k" secondAttribute="bottom" id="gSa-2h-S4G"/>
+                            <constraint firstItem="a0S-wg-S2k" firstAttribute="trailing" secondItem="Wx1-5Y-t2Z" secondAttribute="trailing" id="gzO-s6-He2"/>
+                            <constraint firstItem="a0S-wg-S2k" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" id="pT5-xK-jxC"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="glyphView" destination="a0S-wg-S2k" id="iiK-dG-37k"/>
+                        <outlet property="popUpButton" destination="Wx1-5Y-t2Z" id="5fP-TQ-AX6"/>
+                    </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>

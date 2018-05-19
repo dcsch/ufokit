@@ -45,35 +45,60 @@ public class QuartzPen: PointPen {
   }
 
   public func endPath() {
-    let count = points.count
 
-    var offset = 0
-    while offset < count {
-      let point = points[offset % count]
-      let point_plus1 = points[(offset + 1) % count]
-      let point_plus2 = points[(offset + 2) % count]
-      let point_plus3 = points[(offset + 3) % count]
-
-      if offset == 0 {
-        path.move(to: point.pt)
-      }
-
-      if point_plus1.type == .line {
-        path.addLine(to: point_plus1.pt)
-        offset += 1
-      } else if ((point.type == .curve || point.type == .line) &&
-        point_plus1.type == .offCurve && point_plus2.type == .offCurve &&
-        point_plus3.type == .curve) {
-        path.addCurve(to: point_plus3.pt,
-                      control1: point_plus1.pt,
-                      control2: point_plus2.pt)
-        offset += 3
-      } else {
-        os_log("point case not catered for!!")
+    // Duplicate points from the beginning of the contour to the end
+    // to simplify interating completely through all the points
+    var pointsToDuplicate = [Point]()
+    for point in points {
+      pointsToDuplicate.append(point)
+      if point.type != .offCurve {
         break
       }
     }
+    points.append(contentsOf: pointsToDuplicate)
 
+    var curvePoints = [Point]()
+    for (n, point) in points.enumerated() {
+      if n == 0 || point.type == .move {
+        assert(curvePoints.count == 0)
+        path.move(to: point.pt)
+        curvePoints.removeAll()
+      } else if point.type == .offCurve {
+        curvePoints.append(point)
+      } else if point.type == .line {
+        assert(curvePoints.count == 0)
+        path.addLine(to: point.pt)
+        curvePoints.removeAll()
+      } else if point.type == .curve {
+        if curvePoints.count == 0 {
+          path.addLine(to: point.pt)
+        } else if curvePoints.count == 1 {
+          path.addQuadCurve(to: point.pt, control: curvePoints[0].pt)
+        } else if curvePoints.count == 2 {
+          path.addCurve(to: point.pt,
+                        control1: curvePoints[0].pt,
+                        control2: curvePoints[1].pt)
+        } else {
+          // Error
+        }
+        curvePoints.removeAll()
+      } else if point.type == .qCurve {
+        curvePoints.append(point)
+        var previousPt = CGPoint(x: 0, y: 0)
+        for (n, qpoint) in curvePoints.enumerated() {
+          if n > 0 {
+            if qpoint.type == .qCurve {
+              path.addQuadCurve(to: qpoint.pt, control: previousPt)
+            } else {
+              path.addQuadCurve(to: QuartzPen.midPoint(previousPt, qpoint.pt),
+                                control: previousPt)
+            }
+          }
+          previousPt = qpoint.pt
+        }
+        curvePoints.removeAll()
+      }
+    }
     points.removeAll()
   }
 
@@ -85,5 +110,10 @@ public class QuartzPen: PointPen {
     let componentPen = QuartzPen(glyphSet: glyphSet)
     try glyphSet.readGlyph(glyphName: baseGlyphName, pointPen: componentPen)
     path.addPath(componentPen.path, transform: transformation)
+  }
+
+  private class func midPoint(_ a: CGPoint, _ b: CGPoint) -> CGPoint {
+    return CGPoint(x: a.x + (b.x - a.x) / 2.0,
+                   y: a.y + (b.y - a.y) / 2.0)
   }
 }

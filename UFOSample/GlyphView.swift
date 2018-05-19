@@ -27,8 +27,8 @@ class GlyphView: NSView {
   var glyphPath: CGPath?
   var controlPoints = [ControlPoint]()
   private var translate = CGPoint(x: 0, y: 0)
-  //  private var scale: CGFloat = 1.0
-  private var scale: CGFloat = 0.2
+  private var scale: CGFloat = 1.0
+//  private var scale: CGFloat = 0.2
   var controlPointsVisible = true
 
   override init(frame: NSRect) {
@@ -43,6 +43,9 @@ class GlyphView: NSView {
     guard let context = NSGraphicsContext.current?.cgContext else {
       return
     }
+
+    context.setFillColor(CGColor.white)
+    context.fill(self.bounds)
 
     context.scaleBy(x: CGFloat(scale), y: scale)
     context.translateBy(x: translate.x, y: translate.y)

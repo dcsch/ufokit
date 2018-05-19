@@ -10,9 +10,13 @@
 		03601D7A1FDF67F8000B1401 /* UFOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03601D701FDF67F8000B1401 /* UFOKit.framework */; };
 		03601D7F1FDF67F8000B1401 /* UFOKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03601D7E1FDF67F8000B1401 /* UFOKitTests.swift */; };
 		03601D811FDF67F8000B1401 /* UFOKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 03601D731FDF67F8000B1401 /* UFOKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		036092C120AE129800455961 /* FontInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 036092C020AE129800455961 /* FontInfo.swift */; };
 		039485E11FE8457D00E92F03 /* GlyphSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 039485E01FE8457D00E92F03 /* GlyphSet.swift */; };
 		039485E31FE853E800E92F03 /* PointPen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 039485E21FE853E800E92F03 /* PointPen.swift */; };
 		03AEC0DA1FED89980063FC7B /* UFOReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03AEC0D91FED89980063FC7B /* UFOReader.swift */; };
+		03F5182820A63DB80011CE47 /* FilenameTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03F5182720A63DB80011CE47 /* FilenameTests.swift */; };
+		03F5182A20A647CB0011CE47 /* GLIF2Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03F5182920A647CB0011CE47 /* GLIF2Tests.swift */; };
+		03F5182C20A649D40011CE47 /* UFO3Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03F5182B20A649D40011CE47 /* UFO3Tests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -33,9 +37,13 @@
 		03601D791FDF67F8000B1401 /* UFOKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UFOKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		03601D7E1FDF67F8000B1401 /* UFOKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UFOKitTests.swift; sourceTree = "<group>"; };
 		03601D801FDF67F8000B1401 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		036092C020AE129800455961 /* FontInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontInfo.swift; sourceTree = "<group>"; };
 		039485E01FE8457D00E92F03 /* GlyphSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlyphSet.swift; sourceTree = "<group>"; };
 		039485E21FE853E800E92F03 /* PointPen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointPen.swift; sourceTree = "<group>"; };
 		03AEC0D91FED89980063FC7B /* UFOReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UFOReader.swift; sourceTree = "<group>"; };
+		03F5182720A63DB80011CE47 /* FilenameTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilenameTests.swift; sourceTree = "<group>"; };
+		03F5182920A647CB0011CE47 /* GLIF2Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GLIF2Tests.swift; sourceTree = "<group>"; };
+		03F5182B20A649D40011CE47 /* UFO3Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UFO3Tests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,6 +92,7 @@
 				039485E01FE8457D00E92F03 /* GlyphSet.swift */,
 				039485E21FE853E800E92F03 /* PointPen.swift */,
 				03AEC0D91FED89980063FC7B /* UFOReader.swift */,
+				036092C020AE129800455961 /* FontInfo.swift */,
 			);
 			path = UFOKit;
 			sourceTree = "<group>";
@@ -93,6 +102,9 @@
 			children = (
 				03601D7E1FDF67F8000B1401 /* UFOKitTests.swift */,
 				03601D801FDF67F8000B1401 /* Info.plist */,
+				03F5182720A63DB80011CE47 /* FilenameTests.swift */,
+				03F5182920A647CB0011CE47 /* GLIF2Tests.swift */,
+				03F5182B20A649D40011CE47 /* UFO3Tests.swift */,
 			);
 			path = UFOKitTests;
 			sourceTree = "<group>";
@@ -154,7 +166,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0920;
-				LastUpgradeCheck = 0920;
+				LastUpgradeCheck = 0930;
 				ORGANIZATIONNAME = "David Schweinsberg";
 				TargetAttributes = {
 					03601D6F1FDF67F8000B1401 = {
@@ -208,6 +220,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				036092C120AE129800455961 /* FontInfo.swift in Sources */,
 				039485E31FE853E800E92F03 /* PointPen.swift in Sources */,
 				03AEC0DA1FED89980063FC7B /* UFOReader.swift in Sources */,
 				039485E11FE8457D00E92F03 /* GlyphSet.swift in Sources */,
@@ -218,7 +231,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				03F5182820A63DB80011CE47 /* FilenameTests.swift in Sources */,
 				03601D7F1FDF67F8000B1401 /* UFOKitTests.swift in Sources */,
+				03F5182C20A649D40011CE47 /* UFO3Tests.swift in Sources */,
+				03F5182A20A647CB0011CE47 /* GLIF2Tests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -247,6 +263,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -254,6 +271,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -307,6 +325,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -314,6 +333,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
