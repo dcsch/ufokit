@@ -16,6 +16,23 @@ class ViewController: NSViewController {
 
   var info: UFOKit.FontInfo?
 
+  func open(url: URL) {
+    do {
+      let ufoReader = try UFOReader(url: url)
+      let glyphSet = try ufoReader.glyphSet()
+      info = try ufoReader.readInfo()
+      let pen = QuartzPen(glyphSet: glyphSet)
+      try glyphSet.readGlyph(glyphName: "atilde", pointPen: pen)
+      let boundingBox = expandToFontBoundingBox(pen.path.boundingBox)
+      calculateBounds(containing: boundingBox)
+      glyphView.glyphPath = pen.path
+    } catch UFOError.notDirectoryPath {
+      print("Exception: ")
+    } catch {
+      print("Something else: \(error)")
+    }
+  }
+
   override func viewDidLoad() {
     super.viewDidLoad()
 
@@ -170,5 +187,13 @@ class ViewController: NSViewController {
     }
   }
 
-
+  @IBAction func openDocument(_ sender: Any?) {
+    let panel = NSOpenPanel()
+    panel.allowedFileTypes = ["ufo"]
+    panel.beginSheetModal(for: self.view.window!) { (response: NSApplication.ModalResponse) in
+      if response == .OK {
+        self.open(url: panel.url!)
+      }
+    }
+  }
 }
