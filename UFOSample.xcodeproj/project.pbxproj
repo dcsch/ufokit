@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		035AD88220B34BE9006494B7 /* NamesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 035AD88120B34BE9006494B7 /* NamesViewController.swift */; };
 		03FCE3721FE89640008F90DD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03FCE3711FE89640008F90DD /* AppDelegate.swift */; };
 		03FCE3741FE89640008F90DD /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03FCE3731FE89640008F90DD /* ViewController.swift */; };
 		03FCE3761FE89640008F90DD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 03FCE3751FE89640008F90DD /* Assets.xcassets */; };
@@ -16,6 +17,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		035AD88120B34BE9006494B7 /* NamesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NamesViewController.swift; sourceTree = "<group>"; };
 		03FCE36E1FE89640008F90DD /* UFOSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UFOSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		03FCE3711FE89640008F90DD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		03FCE3731FE89640008F90DD /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -66,6 +68,7 @@
 				03FCE37A1FE89640008F90DD /* Info.plist */,
 				03FCE37B1FE89640008F90DD /* UFOSample.entitlements */,
 				03FCE38C1FE9F1EB008F90DD /* GlyphView.swift */,
+				035AD88120B34BE9006494B7 /* NamesViewController.swift */,
 			);
 			path = UFOSample;
 			sourceTree = "<group>";
@@ -152,6 +155,7 @@
 				03FCE3741FE89640008F90DD /* ViewController.swift in Sources */,
 				03FCE38D1FE9F1EB008F90DD /* GlyphView.swift in Sources */,
 				03FCE3721FE89640008F90DD /* AppDelegate.swift in Sources */,
+				035AD88220B34BE9006494B7 /* NamesViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

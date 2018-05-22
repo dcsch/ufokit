@@ -261,4 +261,16 @@ public struct FontInfo: Codable {
       }
     }
   }
+
+  public var bounds: CGRect {
+    get {
+      if let descender = self.descender,
+        let ascender = self.ascender {
+        return CGRect(x: 0.0, y: descender,
+                      width: 0.0, height: ascender - descender)
+      } else {
+        return CGRect.zero
+      }
+    }
+  }
 }
