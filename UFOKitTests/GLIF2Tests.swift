@@ -7,33 +7,49 @@
 //
 
 import XCTest
+import UFOKit
 
 class GLIF2Tests: XCTestCase {
 
-    override func setUp() {
-        super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-    }
-    
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-        super.tearDown()
-    }
+  var ufoReader: UFOReader!
 
-    func testTopElement() {
-      glif = """
-      <notglyph name="a" format="2">
-        <outline>
-        </outline>
-      </notglyph>
-      """
+  override func setUp() {
+    super.setUp()
+    var testBundle: Bundle!
+    for bundle in Bundle.allBundles {
+      if bundle.bundleIdentifier == "com.typista.UFOKitTests" {
+        testBundle = bundle
+        break
+      }
     }
-
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
+    if let url = testBundle.url(forResource: "test_v3", withExtension: "ufo") {
+      do {
+        ufoReader = try UFOReader(url: url)
+      } catch {
+        print("Error: \(error)")
+      }
     }
+  }
 
+  override func tearDown() {
+    super.tearDown()
+  }
+
+  func testTopElement() {
+    let glif = """
+    <notglyph name="a" format="2">
+      <outline>
+      </outline>
+    </notglyph>
+    """
+  }
+
+  func testReadGlyphException() {
+    XCTAssertNoThrow(try {
+      let glyphSet = try self.ufoReader.glyphSet()
+      let pen = QuartzPen(glyphSet: glyphSet)
+      XCTAssertThrowsError(try glyphSet.readGlyph(glyphName: ".notdef", pointPen: pen))
+      XCTAssertNoThrow(try glyphSet.readGlyph(glyphName: "A", pointPen: pen))
+    }())
+  }
 }

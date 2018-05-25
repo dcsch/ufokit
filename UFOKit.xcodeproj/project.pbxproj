@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		035AD89820B5E479006494B7 /* test_v3.ufo in Resources */ = {isa = PBXBuildFile; fileRef = 035AD89720B5E479006494B7 /* test_v3.ufo */; };
 		03601D7A1FDF67F8000B1401 /* UFOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03601D701FDF67F8000B1401 /* UFOKit.framework */; };
 		03601D7F1FDF67F8000B1401 /* UFOKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03601D7E1FDF67F8000B1401 /* UFOKitTests.swift */; };
 		03601D811FDF67F8000B1401 /* UFOKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 03601D731FDF67F8000B1401 /* UFOKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -30,6 +31,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		035AD89720B5E479006494B7 /* test_v3.ufo */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = test_v3.ufo; sourceTree = "<group>"; };
 		035EBF481FF96DD0009CCEC7 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		03601D701FDF67F8000B1401 /* UFOKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = UFOKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		03601D731FDF67F8000B1401 /* UFOKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UFOKit.h; sourceTree = "<group>"; };
@@ -65,6 +67,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		035AD89620B5E479006494B7 /* data */ = {
+			isa = PBXGroup;
+			children = (
+				035AD89720B5E479006494B7 /* test_v3.ufo */,
+			);
+			path = data;
+			sourceTree = "<group>";
+		};
 		03601D661FDF67F8000B1401 = {
 			isa = PBXGroup;
 			children = (
@@ -100,6 +110,7 @@
 		03601D7D1FDF67F8000B1401 /* UFOKitTests */ = {
 			isa = PBXGroup;
 			children = (
+				035AD89620B5E479006494B7 /* data */,
 				03601D7E1FDF67F8000B1401 /* UFOKitTests.swift */,
 				03601D801FDF67F8000B1401 /* Info.plist */,
 				03F5182720A63DB80011CE47 /* FilenameTests.swift */,
@@ -210,6 +221,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				035AD89820B5E479006494B7 /* test_v3.ufo in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
