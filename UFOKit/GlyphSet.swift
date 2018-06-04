@@ -31,6 +31,7 @@ class UnicodesParser: NSObject, XMLParserDelegate {
       break
     }
   }
+
 }
 
 class ComponentsParser: NSObject, XMLParserDelegate {
@@ -48,6 +49,7 @@ class ComponentsParser: NSObject, XMLParserDelegate {
       break
     }
   }
+
 }
 
 public class GlyphSet {
@@ -227,4 +229,5 @@ public class GlyphSet {
                                 identifier: nil)
     }
   }
+
 }
