@@ -15,7 +15,7 @@ class GlyphView: NSView {
     var onCurve: Bool
   }
 
-  var unitsPerEm = 1024
+  var unitsPerEm = 2048
   var xMin = 0
   var xMax = 0
   var yMin = 0

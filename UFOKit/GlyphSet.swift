@@ -111,7 +111,7 @@ public class GlyphSet {
 
   public func readGlyph(glyphName: String, pointPen: PointPen) throws {
     let glifData = try glif(glyphName: glyphName)
-    let glifDoc = try XMLDocument(data: glifData, options: [])
+    let glifDoc = try XMLDocument(data: glifData, options: [.documentTidyXML])
     if let root = glifDoc.rootElement(),
       let children = root.children {
       for child in children {
