@@ -88,8 +88,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     let splitViewController = NSApp.windows[0].contentViewController as! NSSplitViewController
     let items = splitViewController.splitViewItems
-    namesViewController = items[0].viewController as! NamesViewController
-    glyphViewController = items[1].viewController as! ViewController
+    namesViewController = items[0].viewController as? NamesViewController
+    glyphViewController = items[1].viewController as? ViewController
 
     let nc = NotificationCenter.default
     nc.addObserver(forName: NSTableView.selectionDidChangeNotification, object: nil, queue: nil) { (notification: Notification) in

@@ -13,6 +13,7 @@ public enum UFOError: Error {
   case notDirectoryPath
   case glyphNameNotFound
   case cannotConvertValue
+  case cannotSaveToEarlierVersion
 }
 
 public enum UFOFormatVersion: Int, Codable {
