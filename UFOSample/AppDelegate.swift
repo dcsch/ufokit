@@ -144,6 +144,43 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
   }
 
+  func save(url: URL) {
+    if let info = info {
+      do {
+        let ufoWriter = try UFOWriter(url: url)
+        try ufoWriter.writeInfo(info)
+        // TODO groups
+        // TODO kerning
+        // TODO features
+        let encoder = PropertyListEncoder()
+        encoder.outputFormat = .xml
+        let libData = try encoder.encode(libProps)
+        try ufoWriter.writeLib(libData)
+        // TODO layercontents
+
+        if let libProps = libProps, let glyphNames = libProps.glyphOrder {
+          let writerGlyphSet = try ufoWriter.glyphSet()
+          for glyphName in glyphNames {
+            try writerGlyphSet.writeGlyph(glyphName: glyphName) { (_ pen: PointPen) in
+              if let glyphSet = glyphSet {
+                do {
+                  try glyphSet.readGlyph(glyphName: glyphName, pointPen: pen)
+                } catch {
+                  print("Exception: \(error)")
+                }
+              }
+            }
+          }
+          try writerGlyphSet.writeContents()
+        }
+      } catch UFOError.notDirectoryPath {
+        print("Exception: ")
+      } catch {
+        print("Something else: \(error)")
+      }
+    }
+  }
+
   @IBAction func openDocument(_ sender: Any?) {
     let panel = NSOpenPanel()
     panel.allowedFileTypes = ["ufo"]
@@ -153,4 +190,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
       }
     }
   }
+
+  @IBAction func saveDocument(_ sender: Any?) {
+    let panel = NSSavePanel()
+    panel.allowedFileTypes = ["ufo"]
+    panel.beginSheetModal(for: NSApp.mainWindow!) { (response: NSApplication.ModalResponse) in
+      if response == .OK {
+        self.save(url: panel.url!)
+      }
+    }
+  }
+
 }

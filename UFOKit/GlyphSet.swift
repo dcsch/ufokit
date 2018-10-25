@@ -68,10 +68,14 @@ public class GlyphSet {
   }
 
   public func rebuildContents() throws {
-    let contentsURL = dirURL.appendingPathComponent("contents.plist")
-    let contentsData = try Data(contentsOf: contentsURL)
-    let decoder = PropertyListDecoder()
-    contents = try decoder.decode([String: String].self, from: contentsData)
+    let contentsURL = dirURL.appendingPathComponent(Filename.contentsFilename)
+    do {
+      let contentsData = try Data(contentsOf: contentsURL)
+      let decoder = PropertyListDecoder()
+      contents = try decoder.decode([String: String].self, from: contentsData)
+    } catch {
+      // Proceed with empty contents
+    }
   }
 
   public var reverseContents: [String: String] {
@@ -80,8 +84,12 @@ public class GlyphSet {
     }
   }
 
-  public func writeContents() {
-
+  public func writeContents() throws {
+    let encoder = PropertyListEncoder()
+    encoder.outputFormat = .xml
+    let contentsData = try encoder.encode(contents)
+    let contentsURL = dirURL.appendingPathComponent(Filename.contentsFilename)
+    try contentsData.write(to: contentsURL)
   }
 
   public func readLayerInfo() {
@@ -122,8 +130,22 @@ public class GlyphSet {
     }
   }
 
-  public func writeGlyph(glyphName: String) {
+  public func writeGlyph(glyphName: String, drawPointsFunc: (_ pen: PointPen) -> Void) throws {
+    let root = XMLElement(name: "glyph")
+    let glifDoc = XMLDocument(rootElement: root)
 
+    let outlineElement = XMLElement(name: "outline")
+    root.addChild(outlineElement)
+    let pen = GLIFPointPen(outlineElement: outlineElement)
+    drawPointsFunc(pen)
+
+    let data = glifDoc.xmlData(options: [.nodeCompactEmptyElement, .nodePrettyPrint])
+    let filename = contents[glyphName] ?? Filenames.filename(glyphName: glyphName, suffix: ".glif")
+    if !contents.keys.contains(glyphName) {
+      contents[glyphName] = filename
+    }
+    let glifURL = dirURL.appendingPathComponent(filename)
+    try data.write(to: glifURL)
   }
 
   public func deleteGlyph(glyphName: String) {
@@ -169,7 +191,7 @@ public class GlyphSet {
         if node.childCount == 1 {
           // Anchor
         } else {
-          buildOutlineContour(contour: node, pointPen: pointPen)
+          try buildOutlineContour(contour: node, pointPen: pointPen)
         }
       } else if node.name == "component" {
         try buildOutlineComponent(component: node, pointPen: pointPen)
@@ -177,15 +199,15 @@ public class GlyphSet {
     }
   }
 
-  func buildOutlineContour(contour: XMLNode, pointPen: PointPen) {
-    pointPen.beginPath(identifier: nil)
+  func buildOutlineContour(contour: XMLNode, pointPen: PointPen) throws {
+    try pointPen.beginPath(identifier: nil)
     if contour.childCount > 0 {
-      buildOutlinePoints(contour: contour, pointPen: pointPen)
+      try buildOutlinePoints(contour: contour, pointPen: pointPen)
     }
-    pointPen.endPath()
+    try pointPen.endPath()
   }
 
-  func buildOutlinePoints(contour: XMLNode, pointPen: PointPen) {
+  func buildOutlinePoints(contour: XMLNode, pointPen: PointPen) throws {
     for node in contour.children! {
       if let element = node as? XMLElement {
         let x = Double(element.attribute(forName: "x")?.stringValue ?? "0") ?? 0
@@ -208,7 +230,11 @@ public class GlyphSet {
         }
         let smooth = element.attribute(forName: "smooth")?.stringValue ?? "no" == "yes"
         let name = element.attribute(forName: "name")?.stringValue
-        pointPen.addPoint(CGPoint(x: x, y: y), segmentType: type, smooth: smooth, name: name, identifier: nil)
+        try pointPen.addPoint(CGPoint(x: x, y: y),
+                              segmentType: type,
+                              smooth: smooth,
+                              name: name,
+                              identifier: nil)
       }
     }
   }

@@ -152,7 +152,7 @@
 /* Begin PBXShellScriptBuildPhase section */
 		CAE563B0176EDF88345D5DE6 /* Tailor */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 12;
 			files = (
 			);
 			inputPaths = (
