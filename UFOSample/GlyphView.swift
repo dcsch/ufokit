@@ -25,10 +25,8 @@ class GlyphView: NSView {
   var leftSideBearing = 0
   var advanceWidth = 0
   var glyphPath: CGPath?
-  var controlPoints = [ControlPoint]()
   private var translate = CGPoint(x: 0, y: 0)
   private var scale: CGFloat = 1.0
-  var controlPointsVisible = true
 
   override init(frame: NSRect) {
     super.init(frame: frame)
@@ -43,7 +41,7 @@ class GlyphView: NSView {
       return
     }
 
-    context.setFillColor(CGColor.white)
+    context.setFillColor(NSColor.textBackgroundColor.cgColor)
     context.fill(self.bounds)
 
     context.scaleBy(x: CGFloat(scale), y: scale)
@@ -84,7 +82,7 @@ class GlyphView: NSView {
       context.addPath(path)
     }
 
-    context.setStrokeColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 1.0)
+    context.setStrokeColor(NSColor.textColor.cgColor)
     context.strokePath()
 //    context.fillPath()
   }

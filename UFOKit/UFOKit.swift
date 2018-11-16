@@ -32,12 +32,22 @@ public struct FileCreator {
   public static let defaultFileCreator = "com.typista.UFOKit"
 }
 
+public enum GlifError: Error {
+  case moreThanOneOutline
+  case moreThanOneAdvance
+  case moreThanOneImage
+  case moreThanOneNote
+  case moreThanOneLib
+  case illegalUnicodeValue
+}
+
 public enum UFOError: Error {
   case unsupportedVersion
   case notDirectoryPath
   case glyphNameNotFound
   case cannotConvertValue
   case cannotSaveToEarlierVersion
+  case advanceValueMissing
   case pathNotBegun
   case currentPathNotEnded
   case openContourEndsOffCurve

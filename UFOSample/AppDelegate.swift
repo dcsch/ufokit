@@ -75,6 +75,16 @@ class RoboFontLib: Codable {
   }
 }
 
+class RoboFontGlifLib: Codable {
+  var mark: [Double]?
+  var autohint: Data?
+
+  enum CodingKeys: String, CodingKey {
+    case mark = "com.typemytype.robofont.mark"
+    case autohint = "com.adobe.type.autohint"
+  }
+}
+
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
 
@@ -97,9 +107,19 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let selectedRow = self.namesViewController.tableView.selectedRow
         if let glyphSet = self.glyphSet,
           let libProps = self.libProps {
+          var glyph = Glyph()
           let pen = QuartzPen(glyphSet: glyphSet)
-          try glyphSet.readGlyph(glyphName: libProps.glyphOrder![selectedRow], pointPen: pen)
+          try glyphSet.readGlyph(glyphName: libProps.glyphOrder![selectedRow], glyph: &glyph, pointPen: pen)
           self.glyphViewController.glyphView.glyphPath = pen.path
+          if let data = glyph.lib {
+            let cleanData = AdobeMigration.migrate(data: data)
+            let decoder = PropertyListDecoder()
+            let glifLibProps = try decoder.decode(RoboFontGlifLib.self, from: cleanData)
+            if let autohint = glifLibProps.autohint,
+              let autohintStr = String(data: autohint, encoding: .utf8) {
+              print(autohintStr)
+            }
+          }
         }
         self.glyphViewController.sizeToFit()
         self.glyphViewController.glyphView.needsDisplay = true
