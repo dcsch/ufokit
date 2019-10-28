@@ -75,6 +75,7 @@ public struct Glyph {
 
   public init() {
   }
+
 }
 
 public class GlyphSet {
