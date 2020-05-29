@@ -3,7 +3,7 @@
 A Swift library for low-level [Unified Font Object](http://unifiedfontobject.org/)
 file handling.
 
-A simple Playground to render a glyph in a view:
+A simple example to render a glyph in a view:
 ```swift
 do {
 
