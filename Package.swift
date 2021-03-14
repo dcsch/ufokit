@@ -10,10 +10,10 @@ let package = Package(
         .library(name: "UFOKit", targets: ["UFOKit"]),
     ],
     dependencies: [
-        .package(path: "../Pens")
+      .package(url: "https://github.com/dcsch/fontpens.git", from: "0.1.0")
     ],
     targets: [
-        .target(name: "UFOKit", dependencies: ["Pens"]),
+        .target(name: "UFOKit", dependencies: ["FontPens"]),
         .testTarget(name: "UFOKitTests", dependencies: ["UFOKit"]),
     ]
 )

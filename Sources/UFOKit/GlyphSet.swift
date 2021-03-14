@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import Pens
+import FontPens
 import os.log
 
 public enum GLIFFormatVersion: Int {
