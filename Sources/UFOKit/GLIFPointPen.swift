@@ -9,7 +9,7 @@
 import Foundation
 import FontPens
 
-public class GLIFPointPen: PointPen {
+public struct GLIFPointPen: PointPen {
   let outlineElement: XMLElement
   var currentContour: XMLElement?
   var prevOffCurveCount = 0
@@ -18,7 +18,7 @@ public class GLIFPointPen: PointPen {
     self.outlineElement = outlineElement
   }
 
-  public func beginPath(identifier: String? = nil) throws {
+  public mutating func beginPath(identifier: String? = nil) throws {
     if currentContour != nil {
       throw UFOError.currentPathNotEnded
     }
@@ -26,7 +26,7 @@ public class GLIFPointPen: PointPen {
     prevOffCurveCount = 0
   }
 
-  public func endPath() throws {
+  public mutating func endPath() throws {
     if let currentContour = currentContour {
       if firstSegmentType == .move && lastSegmentType == .offCurve {
         throw UFOError.openContourEndsOffCurve
@@ -38,11 +38,11 @@ public class GLIFPointPen: PointPen {
     currentContour = nil
   }
 
-  public func addPoint(_ pt: CGPoint,
-                       segmentType: SegmentType = .offCurve,
-                       smooth: Bool = false,
-                       name: String? = nil,
-                       identifier: String? = nil) throws {
+  public mutating func addPoint(_ pt: CGPoint,
+                                segmentType: SegmentType = .offCurve,
+                                smooth: Bool = false,
+                                name: String? = nil,
+                                identifier: String? = nil) throws {
     if let currentContour = currentContour {
       let point = XMLElement(name: "point")
       point.setAttributesWith(["x": String(format: "%g", pt.x),
@@ -81,53 +81,49 @@ public class GLIFPointPen: PointPen {
     }
   }
 
-  public func addComponent(baseGlyphName: String,
-                           transformation: CGAffineTransform,
-                           identifier: String? = nil) throws {
-    if let currentContour = currentContour {
-      let component = XMLElement(name: "component")
-      component.addAttribute(GLIFPointPen.createAttribute(name: "base", value: baseGlyphName))
-      if transformation.a != 1.0 {
-        component.addAttribute(
-          GLIFPointPen.createAttribute(name: "xScale",
-                                       value: String(format: "%g", transformation.a)))
-      }
-      if transformation.b != 0.0 {
-        component.addAttribute(
-          GLIFPointPen.createAttribute(name: "xyScale",
-                                       value: String(format: "%g", transformation.b)))
-      }
-      if transformation.c != 0.0 {
-        component.addAttribute(
-          GLIFPointPen.createAttribute(name: "yxScale",
-                                       value: String(format: "%g", transformation.c)))
-      }
-      if transformation.d != 1.0 {
-        component.addAttribute(
-          GLIFPointPen.createAttribute(name: "yScale",
-                                       value: String(format: "%g", transformation.d)))
-      }
-      if transformation.tx != 0.0 {
-        component.addAttribute(
-          GLIFPointPen.createAttribute(name: "xOffset",
-                                       value: String(format: "%g", transformation.tx)))
-      }
-      if transformation.ty != 0.0 {
-        component.addAttribute(
-          GLIFPointPen.createAttribute(name: "yOffset",
-                                       value: String(format: "%g", transformation.ty)))
-      }
-      currentContour.addChild(component)
-    } else {
-      throw UFOError.pathNotBegun
+  public mutating func addComponent(baseGlyphName: String,
+                                    transformation: CGAffineTransform,
+                                    identifier: String? = nil) throws {
+    let component = XMLElement(name: "component")
+    component.addAttribute(GLIFPointPen.createAttribute(name: "base", value: baseGlyphName))
+    if transformation.a != 1.0 {
+      component.addAttribute(
+        GLIFPointPen.createAttribute(name: "xScale",
+                                     value: String(format: "%g", transformation.a)))
     }
+    if transformation.b != 0.0 {
+      component.addAttribute(
+        GLIFPointPen.createAttribute(name: "xyScale",
+                                     value: String(format: "%g", transformation.b)))
+    }
+    if transformation.c != 0.0 {
+      component.addAttribute(
+        GLIFPointPen.createAttribute(name: "yxScale",
+                                     value: String(format: "%g", transformation.c)))
+    }
+    if transformation.d != 1.0 {
+      component.addAttribute(
+        GLIFPointPen.createAttribute(name: "yScale",
+                                     value: String(format: "%g", transformation.d)))
+    }
+    if transformation.tx != 0.0 {
+      component.addAttribute(
+        GLIFPointPen.createAttribute(name: "xOffset",
+                                     value: String(format: "%g", transformation.tx)))
+    }
+    if transformation.ty != 0.0 {
+      component.addAttribute(
+        GLIFPointPen.createAttribute(name: "yOffset",
+                                     value: String(format: "%g", transformation.ty)))
+    }
+    outlineElement.addChild(component)
   }
 
-  class func createAttribute(name: String, value: String) -> XMLNode {
+  static func createAttribute(name: String, value: String) -> XMLNode {
     return XMLNode.attribute(withName: name, stringValue: value) as! XMLNode
   }
 
-  class func segmentType(contour: XMLElement, index: Int) -> SegmentType? {
+  static func segmentType(contour: XMLElement, index: Int) -> SegmentType? {
     if let point = contour.child(at: index) as? XMLElement {
       if let typeStr = point.attribute(forName: "type")?.stringValue {
         var type: SegmentType
