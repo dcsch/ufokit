@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Pens
 import os.log
 
 public enum GLIFFormatVersion: Int {
@@ -78,7 +79,7 @@ public struct Glyph {
 
 }
 
-public class GlyphSet {
+public struct GlyphSet: GlyphComponents {
   let dirURL: URL
   let ufoFormatVersion: UFOFormatVersion
   public var contents: [String: String]
@@ -93,7 +94,7 @@ public class GlyphSet {
     try rebuildContents()
   }
 
-  public func rebuildContents() throws {
+  public mutating func rebuildContents() throws {
     let contentsURL = dirURL.appendingPathComponent(Filename.contentsFilename)
     do {
       let contentsData = try Data(contentsOf: contentsURL)
@@ -143,7 +144,7 @@ public class GlyphSet {
     return attr[.modificationDate] as? Date ?? Date()
   }
 
-  func readGlyph(glifData: Data, glyph: inout Glyph, pointPen: PointPen) throws {
+  func readGlyph<T: PointPen>(glifData: Data, glyph: inout Glyph, pointPen: inout T) throws {
     let glifDoc = try XMLDocument(data: glifData, options: [.documentTidyXML])
     if let root = glifDoc.rootElement(),
       let children = root.children {
@@ -161,7 +162,7 @@ public class GlyphSet {
           if readOutline {
             throw GlifError.moreThanOneOutline
           }
-          try buildOutline(outline: childElement, pointPen: pointPen)
+          try buildOutline(outline: childElement, pointPen: &pointPen)
           readOutline = true
         } else if childElement.name == "advance" {
           if readAdvance {
@@ -226,19 +227,19 @@ public class GlyphSet {
     }
   }
 
-  public func readGlyph(glyphName: String,
+  public func readGlyph<T: PointPen>(glyphName: String,
                         glyph: inout Glyph,
-                        pointPen: PointPen = NullPen()) throws {
+                        pointPen: inout T) throws {
     let glifData = try glif(glyphName: glyphName)
-    try readGlyph(glifData: glifData, glyph: &glyph, pointPen: pointPen)
+    try readGlyph(glifData: glifData, glyph: &glyph, pointPen: &pointPen)
   }
 
-  public func readGlyph(glyphName: String,
+  public func readGlyph<T: PointPen>(glyphName: String,
                         glyph fsGlyph: inout FSGlyph,
-                        pointPen: PointPen = NullPen()) throws {
+                        pointPen: inout T) throws {
     let glifData = try glif(glyphName: glyphName)
     var glyph = Glyph()
-    try readGlyph(glifData: glifData, glyph: &glyph, pointPen: pointPen)
+    try readGlyph(glifData: glifData, glyph: &glyph, pointPen: &pointPen)
     if let width = glyph.width {
       fsGlyph.width = CGFloat(width)
     }
@@ -265,13 +266,14 @@ public class GlyphSet {
     }
   }
 
-  public func readGlyph(glyphName: String, pointPen: PointPen) throws {
+  public func readGlyph<T: PointPen>(glyphName: String, pointPen: inout T) throws {
     let glifData = try glif(glyphName: glyphName)
     var glyph = Glyph()
-    try readGlyph(glifData: glifData, glyph: &glyph, pointPen: pointPen)
+    try readGlyph(glifData: glifData, glyph: &glyph, pointPen: &pointPen)
   }
 
-  public func writeGlyph(glyphName: String, glyph: Glyph? = nil, drawPointsFunc: (_ pen: PointPen) -> Void) throws {
+  // TODO `contents[glyphName] = filename` is the only mutating bit in here, so rework it
+  public mutating func writeGlyph(glyphName: String, glyph: Glyph? = nil, drawPointsFunc: (_ pen: PointPen) -> Void) throws {
 
     // glyph
     let root = XMLElement(name: "glyph")
@@ -360,7 +362,7 @@ public class GlyphSet {
 //
 //  }
 
-  func buildOutline(outline: XMLElement, pointPen: PointPen) throws {
+  func buildOutline<T: PointPen>(outline: XMLElement, pointPen: inout T) throws {
     guard let children = outline.children else { return }
     for node in children {
       guard let element = node as? XMLElement else { continue }
@@ -368,23 +370,23 @@ public class GlyphSet {
         if element.childCount == 1 {
           // Anchor
         } else {
-          try buildOutlineContour(contour: element, pointPen: pointPen)
+          try buildOutlineContour(contour: element, pointPen: &pointPen)
         }
       } else if node.name == "component" {
-        try buildOutlineComponent(component: element, pointPen: pointPen)
+        try buildOutlineComponent(component: element, pointPen: &pointPen)
       }
     }
   }
 
-  func buildOutlineContour(contour: XMLElement, pointPen: PointPen) throws {
+  func buildOutlineContour<T: PointPen>(contour: XMLElement, pointPen: inout T) throws {
     try pointPen.beginPath(identifier: nil)
     if contour.childCount > 0 {
-      try buildOutlinePoints(contour: contour, pointPen: pointPen)
+      try buildOutlinePoints(contour: contour, pointPen: &pointPen)
     }
     try pointPen.endPath()
   }
 
-  func buildOutlinePoints(contour: XMLElement, pointPen: PointPen) throws {
+  func buildOutlinePoints<T: PointPen>(contour: XMLElement, pointPen: inout T) throws {
     for node in contour.children! {
       if let element = node as? XMLElement {
         let x = Double(element.attribute(forName: "x")?.stringValue ?? "0") ?? 0
@@ -416,7 +418,7 @@ public class GlyphSet {
     }
   }
 
-  func buildOutlineComponent(component: XMLElement, pointPen: PointPen) throws {
+  func buildOutlineComponent<T: PointPen>(component: XMLElement, pointPen: inout T) throws {
     let base = component.attribute(forName: "base")?.stringValue ?? ""
     let xScale = CGFloat(Double(component.attribute(forName: "xScale")?.stringValue ?? "1") ?? 1)
     let xyScale = CGFloat(Double(component.attribute(forName: "xyScale")?.stringValue ?? "0") ?? 0)

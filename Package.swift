@@ -10,9 +10,10 @@ let package = Package(
         .library(name: "UFOKit", targets: ["UFOKit"]),
     ],
     dependencies: [
+        .package(path: "../Pens")
     ],
     targets: [
-        .target(name: "UFOKit", dependencies: []),
+        .target(name: "UFOKit", dependencies: ["Pens"]),
         .testTarget(name: "UFOKitTests", dependencies: ["UFOKit"]),
     ]
 )

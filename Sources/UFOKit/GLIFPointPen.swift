@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Pens
 
 public class GLIFPointPen: PointPen {
   let outlineElement: XMLElement

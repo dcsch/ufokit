@@ -8,11 +8,11 @@
 
 import Foundation
 
-public class Filenames {
+public struct Filenames {
   static let illegalCharacters = Filenames.illegalUFOFilenameCharacters
   static let reservedFilenames = Filenames.reservedUFOFilenames
 
-  public class func filename(glyphName: String, suffix: String? = nil) -> String {
+  public static func filename(glyphName: String, suffix: String? = nil) -> String {
 
     let maxFileNameLength = 255
 
