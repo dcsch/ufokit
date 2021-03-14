@@ -272,8 +272,7 @@ public struct GlyphSet: GlyphComponents {
     try readGlyph(glifData: glifData, glyph: &glyph, pointPen: &pointPen)
   }
 
-  // TODO `contents[glyphName] = filename` is the only mutating bit in here, so rework it
-  public mutating func writeGlyph(glyphName: String, glyph: Glyph? = nil, drawPointsFunc: (_ pen: PointPen) -> Void) throws {
+  public mutating func writeGlyph(glyphName: String, glyph: Glyph? = nil, drawPointsFunc: (_ pen: inout GLIFPointPen) -> Void) throws {
 
     // glyph
     let root = XMLElement(name: "glyph")
@@ -312,8 +311,8 @@ public struct GlyphSet: GlyphComponents {
     // outline
     let outlineElement = XMLElement(name: "outline")
     root.addChild(outlineElement)
-    let pen = GLIFPointPen(outlineElement: outlineElement)
-    drawPointsFunc(pen)
+    var pen = GLIFPointPen(outlineElement: outlineElement)
+    drawPointsFunc(&pen)
 
     // lib
 
