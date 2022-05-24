@@ -272,30 +272,30 @@ public struct GlyphSet: GlyphComponents {
     try readGlyph(glifData: glifData, glyph: &glyph, pointPen: &pointPen)
   }
 
-  public mutating func writeGlyph(glyphName: String, glyph: Glyph? = nil, drawPointsFunc: (_ pen: inout GLIFPointPen) -> Void) throws {
+  public mutating func writeGlyph(glyphName: String, glyph: Glyph, drawPointsFunc: (_ pen: inout GLIFPointPen) -> Void) throws {
 
     // glyph
     let root = XMLElement(name: "glyph")
     let glifDoc = XMLDocument(rootElement: root)
+    glifDoc.version = "1.0"
+    glifDoc.characterEncoding = "UTF-8"
 
     // advance
-    if let glyph = glyph {
-      let advanceElement = XMLElement(name: "advance")
-      root.addChild(advanceElement)
-      if let width = glyph.width, width != 0,
-        let widthAttr = XMLNode.attribute(withName: "width",
-                                          stringValue: String(format: "%g", width)) as? XMLNode {
-        advanceElement.addAttribute(widthAttr)
-      }
-      if let height = glyph.height, height != 0,
-        let heightAttr = XMLNode.attribute(withName: "height",
-                                           stringValue: String(format: "%g", height)) as? XMLNode {
-        advanceElement.addAttribute(heightAttr)
-      }
-      if advanceElement.attributes?.count == 0 {
-        // Either width or height must be present
-        throw UFOError.advanceValueMissing
-      }
+    let advanceElement = XMLElement(name: "advance")
+    root.addChild(advanceElement)
+    if let width = glyph.width, width != 0,
+      let widthAttr = XMLNode.attribute(withName: "width",
+                                        stringValue: String(format: "%g", width)) as? XMLNode {
+      advanceElement.addAttribute(widthAttr)
+    }
+    if let height = glyph.height, height != 0,
+      let heightAttr = XMLNode.attribute(withName: "height",
+                                         stringValue: String(format: "%g", height)) as? XMLNode {
+      advanceElement.addAttribute(heightAttr)
+    }
+    if advanceElement.attributes?.count == 0 {
+      // Either width or height must be present
+      throw UFOError.advanceValueMissing
     }
 
     // unicode
