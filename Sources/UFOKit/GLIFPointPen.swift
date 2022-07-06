@@ -25,7 +25,29 @@ public struct GLIFPointPen: PointPen {
     currentContour = XMLElement(name: "contour")
     prevOffCurveCount = 0
   }
-
+    
+    public mutating func closePath() throws {
+        if let currentContour = currentContour {
+            if firstSegmentType == .move && lastSegmentType == .offCurve {
+              throw UFOError.openContourEndsOffCurve
+            }
+            let length = currentContour.childCount
+            guard length != 0,
+                  let first = currentContour.children?[0] as? XMLElement,
+                  let last = currentContour.children? [length - 1] as? XMLElement,
+                  first.name == "point",
+                  last.name == "point",
+                  let connectionType = last.attribute(forName: "type" )
+            else { throw UFOError.pathNotBegun }
+            first.attribute(forName: "type")?.stringValue = connectionType.stringValue
+            currentContour.removeChild(at: length - 1)
+            outlineElement.addChild(currentContour)
+        } else {
+            throw UFOError.pathNotBegun
+        }
+        currentContour = nil
+    }
+    
   public mutating func endPath() throws {
     if let currentContour = currentContour {
       if firstSegmentType == .move && lastSegmentType == .offCurve {
