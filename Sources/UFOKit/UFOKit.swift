@@ -55,6 +55,7 @@ public enum UFOError: Error {
   case offCurveNotFollowedByCurve
   case tooManyOffCurvesBeforeCurve
   case offCurveCannotBeSmooth
+  case pathTooShort
 }
 
 public enum UFOFormatVersion: Int, Codable {
