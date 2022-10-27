@@ -299,7 +299,16 @@ public struct GlyphSet: GlyphComponents {
     }
 
     // unicode
-
+      if let unicodes = glyph.unicodes {
+          for unicode in unicodes {
+              let unicodeElement = XMLElement(name: "unicode")
+              root.addChild(unicodeElement)
+              if let unicodeAttr =  XMLNode.attribute(withName: "hex",
+                                                      stringValue: String(format:"%04X", unicode.value)) as? XMLNode {
+                  unicodeElement.addAttribute(unicodeAttr)
+              }
+          }
+      }
     // note
 
     // image
