@@ -37,12 +37,13 @@ public class UFOWriter {
     if let version = previousFormatVersion, version == .version3 {
       self.layerContents = try UFOReader.readLayerContents(url: url)
     } else {
-      let defaultGlyphsURL = url.appendingPathComponent(DirectoryName.defaultGlyphsDirName)
-      if fileManager.fileExists(atPath: defaultGlyphsURL.path) {
+      //let defaultGlyphsURL = url.appendingPathComponent(DirectoryName.defaultGlyphsDirName)
+      //if fileManager.fileExists(atPath: defaultGlyphsURL.path) {
         self.layerContents = [(LayerName.defaultLayerName, DirectoryName.defaultGlyphsDirName)]
-      } else {
-        self.layerContents = [(String, String)]()
-      }
+     // } else {
+     //     print ("not OK")
+     //   self.layerContents = [(String, String)]()
+      //}
     }
 
     try writeMetaInfo()

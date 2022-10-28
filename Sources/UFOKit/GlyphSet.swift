@@ -279,7 +279,16 @@ public struct GlyphSet: GlyphComponents {
     let glifDoc = XMLDocument(rootElement: root)
     glifDoc.version = "1.0"
     glifDoc.characterEncoding = "UTF-8"
-
+          // name="D" format="2">
+      if let nameAttribute = XMLNode.attribute(withName: "name", stringValue: glyphName) as? XMLNode {
+          root.addAttribute(nameAttribute)
+      }
+      //TODO
+      if let formatAttribute = XMLNode.attribute(withName: "format", stringValue: "2") as? XMLNode {
+          root.addAttribute(formatAttribute)
+      }
+     
+     
     // advance
     let advanceElement = XMLElement(name: "advance")
     root.addChild(advanceElement)
